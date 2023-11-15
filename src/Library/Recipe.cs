@@ -6,6 +6,8 @@
 
 using System;
 using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
+using System.Reflection.Metadata;
 
 namespace Full_GRASP_And_SOLID
 {
@@ -15,6 +17,8 @@ namespace Full_GRASP_And_SOLID
         private IList<BaseStep> steps = new List<BaseStep>();
 
         public Product FinalProduct { get; set; }
+
+        public bool Cooked { get; set; }
 
         // Agregado por Creator
         public void AddStep(Product input, double quantity, Equipment equipment, int time)
@@ -61,6 +65,22 @@ namespace Full_GRASP_And_SOLID
             }
 
             return result;
+        }
+
+        public int GetCookTime()
+        {
+            int suma = 0;
+            foreach (BaseStep steo in steps)
+            {
+                suma += steo.Time;
+            }
+            return suma;
+        }
+
+        public void Cook()
+        {
+            Adapter adapter = new Adapter(this);
+            adapter.Start();
         }
     }
 }
